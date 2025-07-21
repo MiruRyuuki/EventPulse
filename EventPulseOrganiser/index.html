@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPulse - Organizer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Page Management -->
+    <div id="loginPage" class="page">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h2>EventPulse</h2>
+                    <p>Organizer Portal</p>
+                </div>
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="loginBtn">
+                        Sign In
+                    </button>
+                    <div class="login-options">
+                        <span>or</span>
+                        <button type="button" class="btn-google" id="googleLoginBtn">
+                            <i class="fab fa-google"></i>
+                            Continue with Google
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboardPage" class="page">
+        <!-- Header -->
+        <header class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-microphone"></i>
+                <div>
+                    <div style="font-size: 1.5rem; font-weight: bold;">EventPulse</div>
+                    <div style="font-size: 0.75rem; color: #718096;">Organizer Dashboard</div>
+                </div>
+            </div>
+            <div class="nav-user">
+                <span>Welcome, Organizer</span>
+                <button class="btn-logout" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active" data-section="overview">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="menu-item" data-section="scheduler">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Schedule Events</span>
+                </a>
+                <a href="#" class="menu-item" data-section="events">
+                    <i class="fas fa-file-text"></i>
+                    <span>Manage Events</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Section -->
+            <div id="overview" class="content-section active">
+                <div class="page-header">
+                    <h1>Dashboard</h1>
+                    <p>Welcome to your EventPulse organizer portal</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalEvents">3</h3>
+                            <p>Total Events</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalAttendees">401</h3>
+                            <p>Total Attendees</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalRevenue">$60,150</h3>
+                            <p>Revenue</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                            <i class="fas fa-trending-up"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>+23%</h3>
+                            <p>Growth Rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="recent-activities">
+                    <h2>Recent Activities</h2>
+                    <div class="activity-list" id="recentActivities">
+                        <!-- Activities will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="scheduler" class="content-section">
+                <div class="page-header">
+                    <h1>Schedule Events</h1>
+                    <p>Create new events and view upcoming schedule</p>
+                </div>
+
+                <div class="scheduler-container">
+                    <!-- Event Creation Form -->
+                    <div class="event-form-container">
+                        <form id="eventForm" class="event-form">
+                            <h2>Create New Event</h2>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="eventTitle">Event Title</label>
+                                    <input type="text" id="eventTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="eventDate">Date</label>
+                                    <input type="date" id="eventDate" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="eventTime">Time</label>
+                                    <input type="time" id="eventTime" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="eventLocation">Location</label>
+                                    <input type="text" id="eventLocation" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="maxAttendees">Max Attendees</label>
+                                    <input type="number" id="maxAttendees" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="speakers">Speakers (comma separated)</label>
+                                    <input type="text" id="speakers" placeholder="Speaker 1, Speaker 2">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventDescription">Description</label>
+                                <textarea id="eventDescription" rows="3"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-primary">Create Event</button>
+                        </form>
+                    </div>
+
+                    <!-- Calendar View -->
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h2>Upcoming Events Calendar</h2>
+                            <div class="calendar-nav">
+                                <button id="prevMonth" class="btn-secondary">‹</button>
+                                <span id="currentMonth"></span>
+                                <button id="nextMonth" class="btn-secondary">›</button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar">
+                            <div class="calendar-weekdays">
+                                <div class="weekday">Sun</div>
+                                <div class="weekday">Mon</div>
+                                <div class="weekday">Tue</div>
+                                <div class="weekday">Wed</div>
+                                <div class="weekday">Thu</div>
+                                <div class="weekday">Fri</div>
+                                <div class="weekday">Sat</div>
+                            </div>
+                            <div id="calendarDays" class="calendar-days">
+                                <!-- Calendar days will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Selected Date Events -->
+                        <div class="selected-date-events">
+                            <h3 id="selectedDateTitle">Select a date to view events</h3>
+                            <div id="selectedDateEventsList">
+                                <!-- Events for selected date will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Events Section -->
+            <div id="events" class="content-section">
+                <div class="page-header">
+                    <h1>Manage Events</h1>
+                    <p>View and manage all your events</p>
+                </div>
+
+                <div class="events-grid" id="eventsGrid">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
