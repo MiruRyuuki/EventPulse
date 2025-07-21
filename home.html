@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EventPulse - Main Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f8f8fc;
+      color: #333;
+    }
+
+    header {
+      background-color: #fff;
+      padding: 20px 40px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      color: #4a4de4;
+    }
+
+    .main-content {
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      padding: 12px 24px;
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #5952d4;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .modal-content input,
+    .modal-content select {
+      width: 100%;
+      padding: 10px 14px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .modal-content button {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 20px;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #000;
+    }
+
+    .tab-switch {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      cursor: pointer;
+      font-weight: bold;
+      color: #6c63ff;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 5px;
+      transition: border-color 0.3s;
+    }
+
+    .tab.active {
+      border-color: #6c63ff;
+    }
+
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>EventPulse</h1>
+  <button class="btn-primary" onclick="openModal()">Login / Sign Up</button>
+</header>
+
+<div class="main-content">
+    <h2>What is EventPulse?</h2>
+    <p style="max-width: 700px; margin: 10px auto 40px;">
+      EventPulse is an easy way to manage your conferences with the option to customize conferences, track attendance, and supply the attendees with all the information and materials that the event organizers provide.
+    </p>
+  
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 0 20px;">
+      <!-- Block 1 -->
+      <div style="flex: 1 1 300px; text-align: center;">
+        <img src="img/no1.jpg" alt="Conference Resources" style="max-width: 100%; height: auto; border-radius: 12px;">
+        <p style="margin-top: 15px;">Access resources provided by conference organizers directly after registering for a conference.</p>
+      </div>
+  
+      <!-- Block 2 -->
+      <div style="flex: 1 1 300px; text-align: center;">
+        <img src="img/no2.jpg" alt="Certificate Access" style="max-width: 100%; height: auto; border-radius: 12px;">
+        <p style="margin-top: 15px;">Automatically obtain certificates as soon as the conference ends.</p>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Login/Register Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+
+    <div class="tab-switch">
+      <div class="tab active" onclick="switchTab('login')">Login</div>
+      <div class="tab" onclick="switchTab('register')">Register</div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form-section active" id="loginForm">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username" id="loginUsername">
+      <input type="password" placeholder="Password" id="loginPassword">
+      <button class="btn-primary" onclick="login()">Login</button>
+    </div>
+
+    <!-- Register Form -->
+    <div class="form-section" id="registerForm">
+      <h2>Register</h2>
+      <input type="text" placeholder="Username" id="regUsername">
+      <input type="email" placeholder="Email" id="regEmail">
+      <input type="password" placeholder="Password" id="regPassword">
+      <input type="password" placeholder="Confirm Password" id="regConfirmPassword">
+      <select id="regRole">
+        <option value="">Select Role</option>
+        <option value="Organizer">Organizer</option>
+        <option value="Speaker">Speaker</option>
+        <option value="Attendee">Attendee</option>
+        <option value="Reviewer">Reviewer</option>
+        <option value="Admin">Admin</option>
+      </select>
+      <button class="btn-primary" onclick="register()">Register</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal() {
+    document.getElementById("loginModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("loginModal").style.display = "none";
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
+
+    document.querySelector(`.tab-switch .tab:nth-child(${tab === 'login' ? 1 : 2})`).classList.add('active');
+    document.getElementById(`${tab}Form`).classList.add('active');
+  }
+
+  function login() {
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    if (username && password) {
+      alert("Logged in as " + username);
+      closeModal();
+    } else {
+      alert("Please enter your username and password.");
+    }
+  }
+
+  function register() {
+    const username = document.getElementById("regUsername").value;
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
+    const confirm = document.getElementById("regConfirmPassword").value;
+    const role = document.getElementById("regRole").value;
+
+    if (!username || !email || !password || !confirm || !role) {
+      alert("All fields including role are required.");
+      return;
+    }
+    if (password !== confirm) {
+      alert("Passwords do not match.");
+      return;
+    }
+    alert(`Registered successfully as ${username} (${role})`);
+    closeModal();
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById("loginModal");
+    if (event.target == modal) {
+      closeModal();
+    }
+  }
+</script>
+
+</body>
+</html>
