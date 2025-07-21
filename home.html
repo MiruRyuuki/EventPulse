@@ -228,24 +228,44 @@
     }
   }
 
-  function register() {
-    const username = document.getElementById("regUsername").value;
-    const email = document.getElementById("regEmail").value;
-    const password = document.getElementById("regPassword").value;
-    const confirm = document.getElementById("regConfirmPassword").value;
-    const role = document.getElementById("regRole").value;
+function register() {
+  const username = document.getElementById("regUsername").value;
+  const email = document.getElementById("regEmail").value;
+  const password = document.getElementById("regPassword").value;
+  const confirm = document.getElementById("regConfirmPassword").value;
+  const role = document.getElementById("regRole").value;
 
-    if (!username || !email || !password || !confirm || !role) {
-      alert("All fields including role are required.");
-      return;
-    }
-    if (password !== confirm) {
-      alert("Passwords do not match.");
-      return;
-    }
-    alert(`Registered successfully as ${username} (${role})`);
-    closeModal();
+  if (!username || !email || !password || !confirm || !role) {
+    alert("All fields including role are required.");
+    return;
   }
+  if (password !== confirm) {
+    alert("Passwords do not match.");
+    return;
+  }
+
+  // Redirect based on role
+  switch (role) {
+    case "Organizer":
+      window.location.href = "EventPulseOrganiser/index.html";
+      break;
+    case "Speaker":
+      window.location.href = "EventPulseSpeaker/index.html";
+      break;
+    case "Attendee":
+      window.location.href = "EventPulseAttendee/index.html";
+      break;
+    case "Reviewer":
+      window.location.href = "EventPulseReviewer/index.html";
+      break;
+    case "Admin":
+      window.location.href = "EventPulseAdmin/index.html";
+      break;
+    default:
+      alert("Unknown role selected.");
+  }
+}
+
 
   window.onclick = function(event) {
     const modal = document.getElementById("loginModal");
