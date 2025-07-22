@@ -163,7 +163,7 @@
   
 
 <!-- Login/Register Modal -->
-<div class="modal" id="loginModal">
+<div class="modal" id="authModal" id="loginModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
 
@@ -201,9 +201,12 @@
 </div>
 
 <script>
-  function openModal() {
-    document.getElementById("loginModal").style.display = "flex";
+function openModal() {
+  const modal = document.getElementById("authModal");
+  if (modal) {
+    modal.style.display = "flex";
   }
+}
 
   function closeModal() {
     document.getElementById("loginModal").style.display = "none";
@@ -218,15 +221,33 @@
   }
 
   function login() {
-    const username = document.getElementById("loginUsername").value;
-    const password = document.getElementById("loginPassword").value;
-    if (username && password) {
-      alert("Logged in as " + username);
-      closeModal();
-    } else {
-      alert("Please enter your username and password.");
-    }
+  const username = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+
+  if (!username || !password) {
+    alert("Please enter your username and password.");
+    return;
   }
+
+  fetch("http://localhost:5000/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.message === "Login successful") {
+      alert("Welcome, " + username);
+      redirectUserByRole(data.role);
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(err => {
+    console.error("Login error:", err);
+    alert("Something went wrong.");
+  });
+}
 
 function register() {
   const username = document.getElementById("regUsername").value;
@@ -244,7 +265,28 @@ function register() {
     return;
   }
 
+  fetch("http://localhost:5000/api/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, email, password, role })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.message === "User registered") {
+      alert("Registration successful!");
+      redirectUserByRole(data.role);
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(err => {
+    console.error("Registration error:", err);
+    alert("Something went wrong.");
+  });
+}
+
   // Redirect based on role
+  function redirectUserByRole(role) {
   switch (role) {
     case "Organizer":
       window.location.href = "EventPulseOrganiser/index.html";
@@ -262,9 +304,10 @@ function register() {
       window.location.href = "EventPulseAdmin/index.html";
       break;
     default:
-      alert("Unknown role selected.");
+      alert("Unknown role");
   }
 }
+
 
 
   window.onclick = function(event) {
