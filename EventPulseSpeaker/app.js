@@ -32,17 +32,6 @@ class SpeakerDashboard {
     }
 
     setupEventListeners() {
-        // Login form
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', this.handleLogin.bind(this));
-        }
-
-        // Google login
-        const googleLoginBtn = document.getElementById('googleLogin');
-        if (googleLoginBtn) {
-            googleLoginBtn.addEventListener('click', this.handleGoogleLogin.bind(this));
-        }
 
         // Logout
         const logoutBtn = document.getElementById('logoutBtn');

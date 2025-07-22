@@ -15,10 +15,7 @@ let activities = [];
 let currentUser = null;
 
 function showLogin() {
-  document.getElementById('login-bg').style.display = 'flex';
   document.getElementById('dashboard-section').style.display = 'none';
-  document.getElementById('login-form').reset();
-  document.getElementById('login-error').textContent = "";
 }
 
 function showDashboard() {

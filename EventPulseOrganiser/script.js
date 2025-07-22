@@ -48,9 +48,7 @@ let currentCalendarDate = new Date();
 let selectedDate = null;
 
 // DOM Elements
-const loginPage = document.getElementById('loginPage');
 const dashboardPage = document.getElementById('dashboardPage');
-const loginForm = document.getElementById('loginForm');
 const eventForm = document.getElementById('eventForm');
 
 // Initialize app
