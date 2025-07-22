@@ -15,18 +15,31 @@ router.post('/login', async (req, res) => {
 });
 
 // Register Route
-router.post('/register', async (req, res) => {
-  const { username, email, password, role } = req.body;
-  try {
-    const existingUser = await User.findOne({ username });
-    if (existingUser) return res.status(400).json({ message: 'User already exists' });
+const express = require("express");
+const User = require("../models/User");
 
-    const newUser = new User({ username, email, password, role });
-    await newUser.save();
-    res.status(201).json({ message: 'User registered', role });
+router.post("/register", async (req, res) => {
+  const { username, password, role } = req.body;
+
+  if (!username || !password || !role) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  try {
+    const existing = await User.findOne({ username });
+    if (existing) {
+      return res.status(409).json({ message: "User already exists." });
+    }
+
+    const user = new User({ username, password, role });
+    await user.save();
+    res.status(201).json({ message: "User registered successfully." });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error("❌ Registration error:", err);
+    res.status(500).json({ message: "Server error during registration." });
   }
 });
+
+module.exports = router;
 
 module.exports = router;
