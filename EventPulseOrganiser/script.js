@@ -40,9 +40,6 @@ let events = [
     }
 ];
 
-// Current user state
-let currentUser = null;
-
 // Calendar state
 let currentCalendarDate = new Date();
 let selectedDate = null;
@@ -60,10 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     // Check if user is logged in (simulate with localStorage)
     const savedUser = localStorage.getItem('eventPulseUser');
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        showDashboard();
-    }
+    showDashboard();
 }
 
 function setupEventListeners() {

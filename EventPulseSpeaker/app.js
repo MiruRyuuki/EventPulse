@@ -2,7 +2,6 @@
 
 class SpeakerDashboard {
     constructor() {
-        this.currentUser = null;
         this.init();
     }
 
