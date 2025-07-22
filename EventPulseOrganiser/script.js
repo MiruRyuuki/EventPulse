@@ -91,65 +91,7 @@ function setupEventListeners() {
     setupEventManagement();
 }
 
-function handleLogin(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
-    // Simulate login process
-    setButtonLoading('loginBtn', true);
-    
-    setTimeout(() => {
-        if (email && password) {
-            currentUser = {
-                id: '1',
-                name: 'John Organizer',
-                email: email,
-                role: 'organizer'
-            };
-            
-            localStorage.setItem('eventPulseUser', JSON.stringify(currentUser));
-            showNotification('Login successful!', 'success');
-            showDashboard();
-        } else {
-            showNotification('Please fill in all fields', 'error');
-        }
-        setButtonLoading('loginBtn', false);
-    }, 1500);
-}
-
-function handleGoogleLogin() {
-    setButtonLoading('googleLoginBtn', true);
-    
-    setTimeout(() => {
-        currentUser = {
-            id: '1',
-            name: 'John Organizer',
-            email: 'organizer@eventpulse.com',
-            role: 'organizer'
-        };
-        
-        localStorage.setItem('eventPulseUser', JSON.stringify(currentUser));
-        showNotification('Google login successful!', 'success');
-        showDashboard();
-        setButtonLoading('googleLoginBtn', false);
-    }, 2000);
-}
-
-function handleLogout() {
-    localStorage.removeItem('eventPulseUser');
-    currentUser = null;
-    showLogin();
-    showNotification('Logged out successfully', 'info');
-}
-
-function showLogin() {
-    loginPage.classList.add('active');
-    dashboardPage.classList.remove('active');
-}
-
 function showDashboard() {
-    loginPage.classList.remove('active');
     dashboardPage.classList.add('active');
     updateDashboardStats();
     renderRecentActivities();

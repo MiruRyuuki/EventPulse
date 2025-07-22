@@ -14,34 +14,15 @@ let reviews = {};
 let activities = [];
 let currentUser = null;
 
-function showLogin() {
-  document.getElementById('dashboard-section').style.display = 'none';
-}
-
 function showDashboard() {
-  document.getElementById('login-bg').style.display = 'none';
   document.getElementById('dashboard-section').style.display = 'flex';
   document.getElementById('user-name').textContent = currentUser.name;
   showPage('overview');
   updateStatsAndActivities();
 }
 
-document.getElementById('login-form').onsubmit = function(e) {
-  e.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
-  const user = users.find(u => (u.username === username || u.email === username) && u.password === password);
-  if (user) {
-    currentUser = user;
-    showDashboard();
-  } else {
-    document.getElementById('login-error').textContent = "Invalid credentials.";
-  }
-};
-
 document.getElementById('logout-btn').onclick = function() {
   currentUser = null;
-  showLogin();
 };
 
 // Sidebar navigation
@@ -280,6 +261,3 @@ activities.push(
   { user: 'reviewer1', title: 'New paper assigned', detail: 'AI in Healthcare', time: '2 days ago' },
   { user: 'reviewer2', title: 'New paper assigned', detail: 'Blockchain Security', time: '3 days ago' }
 );
-
-// Show login on load
-showLogin();

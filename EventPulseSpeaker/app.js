@@ -12,23 +12,6 @@ class SpeakerDashboard {
         this.setupFileUpload();
         this.setupNavigationTransitions();
         
-        // Check if user is already logged in
-        this.checkExistingLogin();
-    }
-
-    checkExistingLogin() {
-        const userData = localStorage.getItem('eventPulseUser');
-        if (userData) {
-            try {
-                this.currentUser = JSON.parse(userData);
-                console.log('Found existing login:', this.currentUser);
-                this.showDashboard();
-                this.updateUserInfo();
-            } catch (error) {
-                console.error('Error parsing stored user data:', error);
-                localStorage.removeItem('eventPulseUser');
-            }
-        }
     }
 
     setupEventListeners() {
@@ -119,112 +102,16 @@ class SpeakerDashboard {
         });
     }
 
-    handleLogin(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-
-        console.log('Login attempt with email:', email);
-
-        if (!email || !password) {
-            this.showNotification('Please enter both email and password', 'error');
-            return;
-        }
-
-        // Show loading state
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        submitBtn.textContent = 'Logging in...';
-        submitBtn.disabled = true;
-
-        this.showNotification('Logging in...', 'info');
-        
-        // Simulate login process
-        setTimeout(() => {
-            this.currentUser = {
-                name: 'Dr. John Smith',
-                email: email,
-                role: 'speaker'
-            };
-            
-            // Store user data
-            localStorage.setItem('eventPulseUser', JSON.stringify(this.currentUser));
-            console.log('User logged in successfully:', this.currentUser);
-            
-            this.showDashboard();
-            this.showNotification('Login successful!', 'success');
-            this.updateUserInfo();
-            
-            // Reset form
-            submitBtn.textContent = 'Login';
-            submitBtn.disabled = false;
-            e.target.reset();
-        }, 1500);
-    }
-
-    handleGoogleLogin() {
-        console.log('Google login initiated...');
-        
-        const googleBtn = document.getElementById('googleLogin');
-        googleBtn.textContent = 'Connecting...';
-        googleBtn.disabled = true;
-
-        this.showNotification('Redirecting to Google...', 'info');
-        
-        // Simulate Google OAuth
-        setTimeout(() => {
-            this.currentUser = {
-                name: 'Dr. John Smith',
-                email: 'john.smith@gmail.com',
-                role: 'speaker'
-            };
-            
-            localStorage.setItem('eventPulseUser', JSON.stringify(this.currentUser));
-            console.log('Google login successful:', this.currentUser);
-            
-            this.showDashboard();
-            this.showNotification('Google login successful!', 'success');
-            this.updateUserInfo();
-            
-            // Reset button
-            googleBtn.innerHTML = '<i class="fab fa-google"></i> Continue with Google';
-            googleBtn.disabled = false;
-        }, 2000);
-    }
-
-    handleLogout() {
-        console.log('Logging out user...');
-        
-        this.currentUser = null;
-        localStorage.removeItem('eventPulseUser');
-        
-        this.showLogin();
-        this.showNotification('Logged out successfully', 'success');
-    }
-
     showDashboard() {
         console.log('Showing dashboard...');
         
-        const loginPage = document.getElementById('loginPage');
         const dashboardPage = document.getElementById('dashboardPage');
         
-        if (loginPage && dashboardPage) {
-            loginPage.classList.remove('active');
+        if ( dashboardPage) {
             dashboardPage.classList.add('active');
             
             // Load dashboard data
             this.loadDashboardData();
-        }
-    }
-
-    showLogin() {
-        console.log('Showing login page...');
-        
-        const loginPage = document.getElementById('loginPage');
-        const dashboardPage = document.getElementById('dashboardPage');
-        
-        if (loginPage && dashboardPage) {
-            dashboardPage.classList.remove('active');
-            loginPage.classList.add('active');
         }
     }
 
