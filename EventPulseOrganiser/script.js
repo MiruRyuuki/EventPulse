@@ -63,15 +63,10 @@ function initializeApp() {
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
         showDashboard();
-    } else {
-        showLogin();
     }
 }
 
 function setupEventListeners() {
-    // Login form
-    loginForm.addEventListener('submit', handleLogin);
-    document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleLogin);
     
     // Event form
     eventForm.addEventListener('submit', handleCreateEvent);
